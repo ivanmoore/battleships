@@ -19,8 +19,12 @@ public enum Square {
     Centre('#', true),
     Single('o', true);
 
-    private final char c;
+    private static final Set<Square> SHIP_OR_WATER = asSet(GuessedShip, Water);
+    private static final Set<Square> ONLY_WATER = asSet(Water);
+    private static final Set<Square> ONLY_SHIP = asSet(GuessedShip);
+
     private final boolean isShip;
+    private final char c;
 
     Square(char representation, boolean isShip) {
         this.c = representation;
@@ -51,25 +55,25 @@ public enum Square {
     public Set<Square> possibilitiesAbove() {
         switch (this) {
             case GuessedShip:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Single:
-                return asSet(Water);
+                return ONLY_WATER;
             case Centre:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Top:
-                return asSet(Water);
+                return ONLY_WATER;
             case Bottom:
-                return asSet(GuessedShip);
+                return ONLY_SHIP;
             case Left:
-                return asSet(Water);
+                return ONLY_WATER;
             case Right:
-                return asSet(Water);
+                return ONLY_WATER;
             case Water:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case OutOfBounds:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Unknown:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
         }
         throw new RuntimeException("unknown square type");
     }
@@ -77,25 +81,25 @@ public enum Square {
     public Set<Square> possibilitiesRightOf() {
         switch (this) {
             case GuessedShip:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Single:
-                return asSet(Water);
+                return ONLY_WATER;
             case Centre:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Top:
-                return asSet(Water);
+                return ONLY_WATER;
             case Bottom:
-                return asSet(Water);
+                return ONLY_WATER;
             case Left:
-                return asSet(GuessedShip);
+                return ONLY_SHIP;
             case Right:
-                return asSet(Water);
+                return ONLY_WATER;
             case Water:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case OutOfBounds:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Unknown:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
         }
         throw new RuntimeException("unknown square type");
     }
@@ -103,25 +107,25 @@ public enum Square {
     public Set<Square> possibilitiesLeftOf() {
         switch (this) {
             case GuessedShip:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Single:
-                return asSet(Water);
+                return ONLY_WATER;
             case Centre:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Top:
-                return asSet(Water);
+                return ONLY_WATER;
             case Bottom:
-                return asSet(Water);
+                return ONLY_WATER;
             case Left:
-                return asSet(Water);
+                return ONLY_WATER;
             case Right:
-                return asSet(GuessedShip);
+                return ONLY_SHIP;
             case Water:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case OutOfBounds:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Unknown:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
         }
         throw new RuntimeException("unknown square type");
     }
@@ -129,25 +133,25 @@ public enum Square {
     public Set<Square> possibilitiesBelow() {
         switch (this) {
             case GuessedShip:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Single:
-                return asSet(Water);
+                return ONLY_WATER;
             case Centre:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Top:
-                return asSet(GuessedShip);
+                return ONLY_SHIP;
             case Bottom:
-                return asSet(Water);
+                return ONLY_WATER;
             case Left:
-                return asSet(Water);
+                return ONLY_WATER;
             case Right:
-                return asSet(Water);
+                return ONLY_WATER;
             case Water:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case OutOfBounds:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
             case Unknown:
-                return asSet(GuessedShip, Water);
+                return SHIP_OR_WATER;
         }
         throw new RuntimeException("unknown square type");
     }
