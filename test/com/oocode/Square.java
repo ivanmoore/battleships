@@ -2,10 +2,9 @@
 // All rights reserved.  See the LICENSE file for details.
 package com.oocode;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import static java.util.Arrays.asList;
+import static com.oocode.Possibilities.*;
 
 public enum Square {
     Unknown('?', false),
@@ -18,10 +17,6 @@ public enum Square {
     Right('>', true),
     Centre('#', true),
     Single('o', true);
-
-    private static final Set<Square> SHIP_OR_WATER = asSet(GuessedShip, Water);
-    private static final Set<Square> ONLY_WATER = asSet(Water);
-    private static final Set<Square> ONLY_SHIP = asSet(GuessedShip);
 
     private final boolean isShip;
     private final char c;
@@ -46,10 +41,6 @@ public enum Square {
             }
         }
         throw new RuntimeException("could not find square for " + square);
-    }
-
-    private static Set<Square> asSet(Square... squares) {
-        return new HashSet<Square>(asList(squares));
     }
 
     public Set<Square> possibilitiesAbove() {
