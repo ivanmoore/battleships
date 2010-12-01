@@ -7,16 +7,16 @@ import java.util.Set;
 import static com.oocode.Possibilities.*;
 
 public enum Square {
-    Unknown('?', false),
-    OutOfBounds('X', false),
-    Water('~', false),
     GuessedShip('*', true),
+    Single('o', true),
+    Centre('#', true),
     Top('^', true),
     Bottom('v', true),
     Left('<', true),
     Right('>', true),
-    Centre('#', true),
-    Single('o', true);
+    Water('~', false),
+    OutOfBounds('X', false),
+    Unknown('?', false);
 
     private final boolean isShip;
     private final char c;
