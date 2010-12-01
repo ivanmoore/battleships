@@ -278,7 +278,9 @@ public class BattleshipSolverTest {
 
     private void check(Board board, String solution) {
         System.out.println(board);
+        long start = System.currentTimeMillis();
         Board solvedBoard = board.solved();
+        System.out.println("Took " + (System.currentTimeMillis() - start) + "ms");
         assertNotNull("should have been solved", solvedBoard);
         assertEquals(solution, solvedBoard.toString());
     }

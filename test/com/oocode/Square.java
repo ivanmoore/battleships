@@ -4,26 +4,35 @@ package com.oocode;
 
 import java.util.Set;
 
-import static com.oocode.Possibilities.*;
+import static com.oocode.PossibilitiesAbove.aboveCanBe;
+import static com.oocode.PossibleGuesses.*;
 
 public enum Square {
-    GuessedShip('*', true),
-    Single('o', true),
-    Centre('#', true),
-    Top('^', true),
-    Bottom('v', true),
-    Left('<', true),
-    Right('>', true),
-    Water('~', false),
-    OutOfBounds('X', false),
-    Unknown('?', false);
+    GuessedShip('*', true, aboveCanBe(SHIP_OR_WATER), PossibilitiesToRight.toRightCanBe(SHIP_OR_WATER), PossibilitiesToLeft.toLeftCanBe(SHIP_OR_WATER), PossibilitiesBelow.belowCanBe(SHIP_OR_WATER)),
+    Single('o', true, aboveCanBe(ONLY_WATER), PossibilitiesToRight.toRightCanBe(ONLY_WATER), PossibilitiesToLeft.toLeftCanBe(ONLY_WATER), PossibilitiesBelow.belowCanBe(ONLY_WATER)),
+    Centre('#', true, aboveCanBe(SHIP_OR_WATER), PossibilitiesToRight.toRightCanBe(SHIP_OR_WATER), PossibilitiesToLeft.toLeftCanBe(SHIP_OR_WATER), PossibilitiesBelow.belowCanBe(SHIP_OR_WATER)),
+    Top('^', true, aboveCanBe(ONLY_WATER), PossibilitiesToRight.toRightCanBe(ONLY_WATER), PossibilitiesToLeft.toLeftCanBe(ONLY_WATER), PossibilitiesBelow.belowCanBe(ONLY_SHIP)),
+    Bottom('v', true, aboveCanBe(ONLY_SHIP), PossibilitiesToRight.toRightCanBe(ONLY_WATER), PossibilitiesToLeft.toLeftCanBe(ONLY_WATER), PossibilitiesBelow.belowCanBe(ONLY_WATER)),
+    Left('<', true, aboveCanBe(ONLY_WATER), PossibilitiesToRight.toRightCanBe(ONLY_SHIP), PossibilitiesToLeft.toLeftCanBe(ONLY_WATER), PossibilitiesBelow.belowCanBe(ONLY_WATER)),
+    Right('>', true, aboveCanBe(ONLY_WATER), PossibilitiesToRight.toRightCanBe(ONLY_WATER), PossibilitiesToLeft.toLeftCanBe(ONLY_SHIP), PossibilitiesBelow.belowCanBe(ONLY_WATER)),
+    Water('~', false, aboveCanBe(SHIP_OR_WATER), PossibilitiesToRight.toRightCanBe(SHIP_OR_WATER), PossibilitiesToLeft.toLeftCanBe(SHIP_OR_WATER), PossibilitiesBelow.belowCanBe(SHIP_OR_WATER)),
+    OutOfBounds('X', false, aboveCanBe(SHIP_OR_WATER), PossibilitiesToRight.toRightCanBe(SHIP_OR_WATER), PossibilitiesToLeft.toLeftCanBe(SHIP_OR_WATER), PossibilitiesBelow.belowCanBe(SHIP_OR_WATER)),
+    Unknown('?', false, aboveCanBe(SHIP_OR_WATER), PossibilitiesToRight.toRightCanBe(SHIP_OR_WATER), PossibilitiesToLeft.toLeftCanBe(SHIP_OR_WATER), PossibilitiesBelow.belowCanBe(SHIP_OR_WATER));
 
     private final boolean isShip;
+    private final PossibilitiesAbove possibilitiesAbove;
+    private final PossibilitiesBelow possibilitiesBelow;
+    private final PossibilitiesToRight possibilitiesToRight;
+    private final PossibilitiesToLeft possibilitiesToLeft;
     private final char c;
 
-    Square(char representation, boolean isShip) {
+    Square(char representation, boolean isShip, PossibilitiesAbove possibilitiesAbove, PossibilitiesToRight possibilitiesToRight, PossibilitiesToLeft possibilitiesToLeft, PossibilitiesBelow possibilitiesBelow) {
         this.c = representation;
         this.isShip = isShip;
+        this.possibilitiesAbove = possibilitiesAbove;
+        this.possibilitiesToRight = possibilitiesToRight;
+        this.possibilitiesToLeft = possibilitiesToLeft;
+        this.possibilitiesBelow = possibilitiesBelow;
     }
 
     public String toString() {
@@ -44,106 +53,18 @@ public enum Square {
     }
 
     public Set<Square> possibilitiesAbove() {
-        switch (this) {
-            case GuessedShip:
-                return SHIP_OR_WATER;
-            case Single:
-                return ONLY_WATER;
-            case Centre:
-                return SHIP_OR_WATER;
-            case Top:
-                return ONLY_WATER;
-            case Bottom:
-                return ONLY_SHIP;
-            case Left:
-                return ONLY_WATER;
-            case Right:
-                return ONLY_WATER;
-            case Water:
-                return SHIP_OR_WATER;
-            case OutOfBounds:
-                return SHIP_OR_WATER;
-            case Unknown:
-                return SHIP_OR_WATER;
-        }
-        throw new RuntimeException("unknown square type");
+        return possibilitiesAbove.canBe();
     }
 
     public Set<Square> possibilitiesRightOf() {
-        switch (this) {
-            case GuessedShip:
-                return SHIP_OR_WATER;
-            case Single:
-                return ONLY_WATER;
-            case Centre:
-                return SHIP_OR_WATER;
-            case Top:
-                return ONLY_WATER;
-            case Bottom:
-                return ONLY_WATER;
-            case Left:
-                return ONLY_SHIP;
-            case Right:
-                return ONLY_WATER;
-            case Water:
-                return SHIP_OR_WATER;
-            case OutOfBounds:
-                return SHIP_OR_WATER;
-            case Unknown:
-                return SHIP_OR_WATER;
-        }
-        throw new RuntimeException("unknown square type");
+        return possibilitiesToRight.canBe();
     }
 
     public Set<Square> possibilitiesLeftOf() {
-        switch (this) {
-            case GuessedShip:
-                return SHIP_OR_WATER;
-            case Single:
-                return ONLY_WATER;
-            case Centre:
-                return SHIP_OR_WATER;
-            case Top:
-                return ONLY_WATER;
-            case Bottom:
-                return ONLY_WATER;
-            case Left:
-                return ONLY_WATER;
-            case Right:
-                return ONLY_SHIP;
-            case Water:
-                return SHIP_OR_WATER;
-            case OutOfBounds:
-                return SHIP_OR_WATER;
-            case Unknown:
-                return SHIP_OR_WATER;
-        }
-        throw new RuntimeException("unknown square type");
+        return possibilitiesToLeft.canBe();
     }
 
     public Set<Square> possibilitiesBelow() {
-        switch (this) {
-            case GuessedShip:
-                return SHIP_OR_WATER;
-            case Single:
-                return ONLY_WATER;
-            case Centre:
-                return SHIP_OR_WATER;
-            case Top:
-                return ONLY_SHIP;
-            case Bottom:
-                return ONLY_WATER;
-            case Left:
-                return ONLY_WATER;
-            case Right:
-                return ONLY_WATER;
-            case Water:
-                return SHIP_OR_WATER;
-            case OutOfBounds:
-                return SHIP_OR_WATER;
-            case Unknown:
-                return SHIP_OR_WATER;
-        }
-        throw new RuntimeException("unknown square type");
+        return possibilitiesBelow.canBe();
     }
 }
