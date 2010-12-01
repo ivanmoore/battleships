@@ -1,3 +1,5 @@
+// Copyright (c) 2010 Ivan Moore and Mick Killianey.
+// All rights reserved.  See the LICENSE file for details.
 package com.oocode;
 
 public class PossibilitiesBelow extends Possibilities {
