@@ -2,6 +2,11 @@
 // All rights reserved.  See the LICENSE file for details.
 package com.oocode;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
+
 public enum Square {
     Unknown('?', false),
     OutOfBounds('X', false),
@@ -37,5 +42,113 @@ public enum Square {
             }
         }
         throw new RuntimeException("could not find square for " + square);
+    }
+
+    private static Set<Square> asSet(Square... squares) {
+        return new HashSet<Square>(asList(squares));
+    }
+
+    public Set<Square> possibilitiesAbove() {
+        switch (this) {
+            case GuessedShip:
+                return asSet(GuessedShip, Water);
+            case Single:
+                return asSet(Water);
+            case Centre:
+                return asSet(GuessedShip, Water);
+            case Top:
+                return asSet(Water);
+            case Bottom:
+                return asSet(GuessedShip);
+            case Left:
+                return asSet(Water);
+            case Right:
+                return asSet(Water);
+            case Water:
+                return asSet(GuessedShip, Water);
+            case OutOfBounds:
+                return asSet(GuessedShip, Water);
+            case Unknown:
+                return asSet(GuessedShip, Water);
+        }
+        throw new RuntimeException("unknown square type");
+    }
+
+    public Set<Square> possibilitiesRightOf() {
+        switch (this) {
+            case GuessedShip:
+                return asSet(GuessedShip, Water);
+            case Single:
+                return asSet(Water);
+            case Centre:
+                return asSet(GuessedShip, Water);
+            case Top:
+                return asSet(Water);
+            case Bottom:
+                return asSet(Water);
+            case Left:
+                return asSet(GuessedShip);
+            case Right:
+                return asSet(Water);
+            case Water:
+                return asSet(GuessedShip, Water);
+            case OutOfBounds:
+                return asSet(GuessedShip, Water);
+            case Unknown:
+                return asSet(GuessedShip, Water);
+        }
+        throw new RuntimeException("unknown square type");
+    }
+
+    public Set<Square> possibilitiesLeftOf() {
+        switch (this) {
+            case GuessedShip:
+                return asSet(GuessedShip, Water);
+            case Single:
+                return asSet(Water);
+            case Centre:
+                return asSet(GuessedShip, Water);
+            case Top:
+                return asSet(Water);
+            case Bottom:
+                return asSet(Water);
+            case Left:
+                return asSet(Water);
+            case Right:
+                return asSet(GuessedShip);
+            case Water:
+                return asSet(GuessedShip, Water);
+            case OutOfBounds:
+                return asSet(GuessedShip, Water);
+            case Unknown:
+                return asSet(GuessedShip, Water);
+        }
+        throw new RuntimeException("unknown square type");
+    }
+
+    public Set<Square> possibilitiesBelow() {
+        switch (this) {
+            case GuessedShip:
+                return asSet(GuessedShip, Water);
+            case Single:
+                return asSet(Water);
+            case Centre:
+                return asSet(GuessedShip, Water);
+            case Top:
+                return asSet(GuessedShip);
+            case Bottom:
+                return asSet(Water);
+            case Left:
+                return asSet(Water);
+            case Right:
+                return asSet(Water);
+            case Water:
+                return asSet(GuessedShip, Water);
+            case OutOfBounds:
+                return asSet(GuessedShip, Water);
+            case Unknown:
+                return asSet(GuessedShip, Water);
+        }
+        throw new RuntimeException("unknown square type");
     }
 }

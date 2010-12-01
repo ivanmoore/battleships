@@ -6,7 +6,6 @@ import java.util.*;
 
 import static com.oocode.Ship.shipFromBoardSquares;
 import static com.oocode.Square.*;
-import static java.util.Arrays.asList;
 
 public class Board {
     private final ColumnClues columnClues;
@@ -69,10 +68,10 @@ public class Board {
 
     Set<Square> allPossibilitiesBasedOnNearNeighbours(int row, int col) {
         Set<Square> squareSet = new HashSet<Square>();
-        squareSet.addAll(possibilitiesAbove(squareBelow(row, col)));
-        squareSet.retainAll(possibilitiesBelow(squareAbove(row, col)));
-        squareSet.retainAll(possibilitiesLeftOf(squareRightOf(row, col)));
-        squareSet.retainAll(possibilitiesRightOf(squareLeftOf(row, col)));
+        squareSet.addAll(squareBelow(row, col).possibilitiesAbove());
+        squareSet.retainAll(squareAbove(row, col).possibilitiesBelow());
+        squareSet.retainAll(squareRightOf(row, col).possibilitiesLeftOf());
+        squareSet.retainAll(squareLeftOf(row, col).possibilitiesRightOf());
         return squareSet;
     }
 
@@ -90,114 +89,6 @@ public class Board {
 
     private Square squareBelow(int row, int col) {
         return square(row + 1, col);
-    }
-
-    private Set<Square> possibilitiesBelow(Square above) {
-        switch (above) {
-            case GuessedShip:
-                return asSet(GuessedShip, Water);
-            case Single:
-                return asSet(Water);
-            case Centre:
-                return asSet(GuessedShip, Water);
-            case Top:
-                return asSet(GuessedShip);
-            case Bottom:
-                return asSet(Water);
-            case Left:
-                return asSet(Water);
-            case Right:
-                return asSet(Water);
-            case Water:
-                return asSet(GuessedShip, Water);
-            case OutOfBounds:
-                return asSet(GuessedShip, Water);
-            case Unknown:
-                return asSet(GuessedShip, Water);
-        }
-        throw new RuntimeException("unknown square type");
-    }
-
-    private Set<Square> possibilitiesAbove(Square below) {
-        switch (below) {
-            case GuessedShip:
-                return asSet(GuessedShip, Water);
-            case Single:
-                return asSet(Water);
-            case Centre:
-                return asSet(GuessedShip, Water);
-            case Top:
-                return asSet(Water);
-            case Bottom:
-                return asSet(GuessedShip);
-            case Left:
-                return asSet(Water);
-            case Right:
-                return asSet(Water);
-            case Water:
-                return asSet(GuessedShip, Water);
-            case OutOfBounds:
-                return asSet(GuessedShip, Water);
-            case Unknown:
-                return asSet(GuessedShip, Water);
-        }
-        throw new RuntimeException("unknown square type");
-    }
-
-    private Set<Square> possibilitiesRightOf(Square left) {
-        switch (left) {
-            case GuessedShip:
-                return asSet(GuessedShip, Water);
-            case Single:
-                return asSet(Water);
-            case Centre:
-                return asSet(GuessedShip, Water);
-            case Top:
-                return asSet(Water);
-            case Bottom:
-                return asSet(Water);
-            case Left:
-                return asSet(GuessedShip);
-            case Right:
-                return asSet(Water);
-            case Water:
-                return asSet(GuessedShip, Water);
-            case OutOfBounds:
-                return asSet(GuessedShip, Water);
-            case Unknown:
-                return asSet(GuessedShip, Water);
-        }
-        throw new RuntimeException("unknown square type");
-    }
-
-    private Set<Square> possibilitiesLeftOf(Square right) {
-        switch (right) {
-            case GuessedShip:
-                return asSet(GuessedShip, Water);
-            case Single:
-                return asSet(Water);
-            case Centre:
-                return asSet(GuessedShip, Water);
-            case Top:
-                return asSet(Water);
-            case Bottom:
-                return asSet(Water);
-            case Left:
-                return asSet(Water);
-            case Right:
-                return asSet(GuessedShip);
-            case Water:
-                return asSet(GuessedShip, Water);
-            case OutOfBounds:
-                return asSet(GuessedShip, Water);
-            case Unknown:
-                return asSet(GuessedShip, Water);
-        }
-        throw new RuntimeException("unknown square type");
-    }
-
-    private Set<Square> asSet(Square... squares) {
-        return new HashSet<Square>(asList(squares));
     }
 
     private boolean hasShipOnDiagonal(int row, int col) {
